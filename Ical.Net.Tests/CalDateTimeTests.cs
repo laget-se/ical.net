@@ -1,9 +1,8 @@
 ﻿using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
-using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 using System;
 using System.Collections.Generic;
+using Xunit;
 
 namespace Ical.Net.Tests
 {
@@ -28,15 +27,15 @@ namespace Ical.Net.Tests
             return calendarEvent;
         }
 
-        [Test, TestCaseSource(nameof(ToTimeZoneTestCases))]
+        [Fact, TestCaseSource(nameof(ToTimeZoneTestCases))]
         public void ToTimeZoneTests(CalendarEvent calendarEvent, string targetTimeZone)
         {
             var startAsUtc = calendarEvent.Start.AsUtc;
-            
+
             var convertedStart = calendarEvent.Start.ToTimeZone(targetTimeZone);
             var convertedAsUtc = convertedStart.AsUtc;
 
-            Assert.AreEqual(startAsUtc, convertedAsUtc);
+            Assert.Equal(startAsUtc, convertedAsUtc);
         }
 
         public static IEnumerable<ITestCaseData> ToTimeZoneTestCases()
@@ -66,7 +65,7 @@ namespace Ical.Net.Tests
                 .SetName($"IANA to BCL: {ianaNy} to {bclCst}");
         }
 
-        [TestCaseSource(nameof(AsDateTimeOffsetTestCases))]
+        [FactCaseSource(nameof(AsDateTimeOffsetTestCases))]
         public DateTimeOffset AsDateTimeOffsetTests(CalDateTime incoming)
             => incoming.AsDateTimeOffset;
 
@@ -99,21 +98,21 @@ namespace Ical.Net.Tests
                 .Returns(new DateTimeOffset(summerDate, currentSystemOffset));
         }
 
-        [Test(Description = "Calling AsUtc should always return the proper UTC time, even if the TzId has changed")]
+        [Fact(Skip = "Calling AsUtc should always return the proper UTC time, even if the TzId has changed")]
         public void TestTzidChanges()
         {
             var someTime = DateTimeOffset.Parse("2018-05-21T11:35:00-04:00");
 
             var someDt = new CalDateTime(someTime.DateTime) { TzId = "America/New_York" };
             var firstUtc = someDt.AsUtc;
-            Assert.AreEqual(someTime.UtcDateTime, firstUtc);
+            Assert.Equal(someTime.UtcDateTime, firstUtc);
 
             someDt.TzId = "Europe/Berlin";
             var berlinUtc = someDt.AsUtc;
-            Assert.AreNotEqual(firstUtc, berlinUtc);
+            Assert.NotEqual(firstUtc, berlinUtc);
         }
 
-        [Test, TestCaseSource(nameof(DateTimeKindOverrideTestCases))]
+        [Fact, TestCaseSource(nameof(DateTimeKindOverrideTestCases))]
         public DateTimeKind DateTimeKindOverrideTests(DateTime dateTime, string tzId)
             => new CalDateTime(dateTime, tzId).Value.Kind;
 

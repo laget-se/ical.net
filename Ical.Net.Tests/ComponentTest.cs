@@ -1,24 +1,25 @@
-using Ical.Net.CalendarComponents;
+﻿using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
-using NUnit.Framework;
 using System;
+using System.ComponentModel;
+using Xunit;
 
 namespace Ical.Net.Tests
 {
     public class ComponentTest
     {
-        [Test, Category("Components")]
+        [Fact, Category("Components")]
         public void UniqueComponent1()
         {
             var iCal = new Calendar();
             var evt = iCal.Create<CalendarEvent>();
 
-            Assert.IsNotNull(evt.Uid);
-            Assert.IsNull(evt.Created); // We don't want this to be set automatically
-            Assert.IsNotNull(evt.DtStamp);
+            Assert.NotNull(evt.Uid);
+            Assert.Null(evt.Created); // We don't want this to be set automatically
+            Assert.NotNull(evt.DtStamp);
         }
 
-        [Test, Category("Components")]
+        [Fact, Category("Components")]
         public void ChangeCalDateTimeValue()
         {
             var e = new CalendarEvent
@@ -36,8 +37,8 @@ namespace Ical.Net.Tests
             var secondStartAsUtc = e.Start.AsUtc;
             var secondEndAsUtc = e.End.AsUtc;
 
-            Assert.AreNotEqual(firstStartAsUtc, secondStartAsUtc);
-            Assert.AreNotEqual(firstEndAsUtc, secondEndAsUtc);
+            Assert.NotEqual(firstStartAsUtc, secondStartAsUtc);
+            Assert.NotEqual(firstEndAsUtc, secondEndAsUtc);
         }
     }
 }

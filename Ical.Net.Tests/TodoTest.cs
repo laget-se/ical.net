@@ -1,17 +1,16 @@
-using Ical.Net.DataTypes;
-using NUnit.Framework;
-using NUnit.Framework.Interfaces;
+﻿using Ical.Net.DataTypes;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using Xunit;
 
 namespace Ical.Net.Tests
 {
-    [TestFixture]
     public class TodoTest
     {
         private const string _tzid = "US-Eastern";
 
-        [Test, TestCaseSource(nameof(ActiveTodo_TestCases)), Category("Todo")]
+        [Fact, TestCaseSource(nameof(ActiveTodo_TestCases)), Category("Todo")]
         public void ActiveTodo_Tests(string calendarString, IList<KeyValuePair<CalDateTime, bool>> incoming)
         {
             var iCal = Calendar.Load(calendarString);
@@ -22,7 +21,7 @@ namespace Ical.Net.Tests
             {
                 var dt = calDateTime.Key;
                 dt.TzId = _tzid;
-                Assert.AreEqual(calDateTime.Value, todo[0].IsActive(dt));
+                Assert.Equal(calDateTime.Value, todo[0].IsActive(dt));
             }
         }
 
@@ -161,7 +160,7 @@ namespace Ical.Net.Tests
             yield return new TestCaseData(IcsFiles.Todo9, testVals).SetName("Todo9");
         }
 
-        [Test, TestCaseSource(nameof(CompletedTodo_TestCases)), Category("Todo")]
+        [Fact, TestCaseSource(nameof(CompletedTodo_TestCases)), Category("Todo")]
         public void CompletedTodo_Tests(string calendarString, IList<KeyValuePair<CalDateTime, bool>> incoming)
         {
             var iCal = Calendar.Load(calendarString);
@@ -172,7 +171,7 @@ namespace Ical.Net.Tests
             {
                 var dt = calDateTime.Key;
                 dt.TzId = _tzid;
-                Assert.AreEqual(calDateTime.Value, todo[0].IsCompleted(dt));
+                Assert.Equal(calDateTime.Value, todo[0].IsCompleted(dt));
             }
         }
 
@@ -187,7 +186,7 @@ namespace Ical.Net.Tests
             yield return new TestCaseData(IcsFiles.Todo4, testVals).SetName("Todo4");
         }
 
-        [Test, Category("Todo")]
+        [Fact, Category("Todo")]
         public void Todo7_1()
         {
             var iCal = Calendar.Load(IcsFiles.Todo7);
@@ -211,7 +210,7 @@ namespace Ical.Net.Tests
                 new CalDateTime(2006, 7, 1, 9, 0, 0),
                 new CalDateTime(2007, 7, 1, 9, 0, 0)).OrderBy(o => o.Period.StartTime).ToList();
 
-            Assert.AreEqual(
+            Assert.Equal(
                 items.Count,
                 occurrences.Count);
         }

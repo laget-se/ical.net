@@ -1,10 +1,10 @@
 ﻿using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
 using Ical.Net.Evaluation;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xunit;
 
 namespace Ical.Net.Tests
 {
@@ -12,16 +12,16 @@ namespace Ical.Net.Tests
     {
         public static CalendarCollection GetCalendars(string incoming) => CalendarCollection.Load(incoming);
 
-        [Test]
+        [Fact]
         public void WrongDurationTest()
         {
             var firstStart = new CalDateTime(DateTime.Parse("2016-01-01"));
             var firstEnd = new CalDateTime(DateTime.Parse("2016-01-05"));
-            var vEvent = new CalendarEvent {DtStart = firstStart, DtEnd = firstEnd,};
+            var vEvent = new CalendarEvent { DtStart = firstStart, DtEnd = firstEnd, };
 
             var secondStart = new CalDateTime(DateTime.Parse("2016-03-01"));
             var secondEnd = new CalDateTime(DateTime.Parse("2016-03-05"));
-            var vEvent2 = new CalendarEvent {DtStart = secondStart, DtEnd = secondEnd,};
+            var vEvent2 = new CalendarEvent { DtStart = secondStart, DtEnd = secondEnd, };
 
             var calendar = new Calendar();
             calendar.Events.Add(vEvent);
@@ -34,17 +34,17 @@ namespace Ical.Net.Tests
             var firstOccurrence = occurrences.First();
             var firstStartCopy = firstStart.Copy<CalDateTime>();
             var firstEndCopy = firstEnd.Copy<CalDateTime>();
-            Assert.AreEqual(firstStartCopy, firstOccurrence.Period.StartTime);
-            Assert.AreEqual(firstEndCopy, firstOccurrence.Period.EndTime);
+            Assert.Equal(firstStartCopy, firstOccurrence.Period.StartTime);
+            Assert.Equal(firstEndCopy, firstOccurrence.Period.EndTime);
 
             var secondOccurrence = occurrences.Last();
             var secondStartCopy = secondStart.Copy<CalDateTime>();
             var secondEndCopy = secondEnd.Copy<CalDateTime>();
-            Assert.AreEqual(secondStartCopy, secondOccurrence.Period.StartTime);
-            Assert.AreEqual(secondEndCopy, secondOccurrence.Period.EndTime);
+            Assert.Equal(secondStartCopy, secondOccurrence.Period.StartTime);
+            Assert.Equal(secondEndCopy, secondOccurrence.Period.EndTime);
         }
 
-        [Test]
+        [Fact]
         public void SkippedOccurrenceOnWeeklyPattern()
         {
             const int evaluationsCount = 1000;
@@ -75,17 +75,17 @@ namespace Ical.Net.Tests
                 includeReferenceDateInResults: false);
             var occurrenceSet = new HashSet<IDateTime>(occurrences.Select(o => o.Period.StartTime));
 
-            Assert.AreEqual(evaluationsCount, occurrenceSet.Count);
+            Assert.Equal(evaluationsCount, occurrenceSet.Count);
 
             for (var currentOccurrence = intervalStart; currentOccurrence.CompareTo(intervalEnd) < 0; currentOccurrence = (CalDateTime)currentOccurrence.AddDays(7))
             {
                 var contains = occurrenceSet.Contains(currentOccurrence);
-                Assert.IsTrue(contains, $"Collection does not contain {currentOccurrence}, but it is a {currentOccurrence.DayOfWeek}");
+                Assert.True(contains, $"Collection does not contain {currentOccurrence}, but it is a {currentOccurrence.DayOfWeek}");
             }
         }
 
 
-        [Test]
+        [Fact]
         public void EnumerationChangedException()
         {
             const string ical = @"BEGIN:VCALENDAR
@@ -137,10 +137,10 @@ END:VCALENDAR";
             var occurrences = calendar.GetOccurrences(date);
 
             //We really want to make sure this doesn't explode
-            Assert.AreEqual(1, occurrences.Count);
+            Assert.Equal(1, occurrences.Count);
         }
 
-        [Test]
+        [Fact]
         public void GetOccurrencesShouldEnumerate()
         {
             const string ical =
@@ -200,7 +200,7 @@ END:VCALENDAR
             var startCheck = new DateTime(2016, 11, 11);
             var occurrences = collection.GetOccurrences<CalendarEvent>(startCheck, startCheck.AddMonths(1));
 
-            Assert.IsTrue(occurrences.Count == 4);
+            Assert.True(occurrences.Count == 4);
         }
     }
 }

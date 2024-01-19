@@ -1,12 +1,12 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Xunit;
 
 namespace Ical.Net.Tests
 {
     public class ConcurrentDeserializationTests
     {
-        [Test]
+        [Fact]
         public void ConcurrentDeserialization_Test()
         {
             // https://github.com/rianjs/ical.net/issues/40
@@ -21,7 +21,7 @@ namespace Ical.Net.Tests
 
             var deserializedCalendars = calendars.AsParallel().SelectMany(CalendarCollection.Load);
             var materialized = deserializedCalendars.ToList();
-            Assert.AreEqual(5, materialized.Count);
+            Assert.Equal(5, materialized.Count);
         }
     }
 }

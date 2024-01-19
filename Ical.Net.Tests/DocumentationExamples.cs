@@ -1,14 +1,14 @@
 ﻿using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using Xunit;
 
 namespace Ical.Net.Tests
 {
     public class DocumentationExamples
     {
-        [Test]
+        [Fact]
         public void Daily_Test()
         {
             // The first instance of an event taking place on July 1, 2016 between 07:00 and 08:00.
@@ -25,7 +25,7 @@ namespace Ical.Net.Tests
                 Until = DateTime.Parse("2016-07-31T23:59:59")
             };
 
-            vEvent.RecurrenceRules = new List<RecurrencePattern> {recurrenceRule};
+            vEvent.RecurrenceRules = new List<RecurrencePattern> { recurrenceRule };
             var calendar = new Calendar();
             calendar.Events.Add(vEvent);
 
@@ -35,10 +35,10 @@ namespace Ical.Net.Tests
             var searchStart = DateTime.Parse("2016-07-20");
             var searchEnd = DateTime.Parse("2016-08-05");
             var occurrences = calendar.GetOccurrences(searchStart, searchEnd);
-            Assert.AreEqual(12, occurrences.Count);
+            Assert.Equal(12, occurrences.Count);
         }
 
-        [Test]
+        [Fact]
         public void EveryOtherTuesdayUntilTheEndOfTheYear_Test()
         {
             // An event taking place between 07:00 and 08:00, beginning July 5 (a Tuesday)
@@ -61,10 +61,10 @@ namespace Ical.Net.Tests
             var searchEnd = DateTime.Parse("2016-12-31");
             var tuesdays = vEvent.GetOccurrences(searchStart, searchEnd);
 
-            Assert.AreEqual(13, tuesdays.Count);
+            Assert.Equal(13, tuesdays.Count);
         }
 
-        [Test]
+        [Fact]
         public void FourthThursdayOfNovember_Tests()
         {
             // (The number of US thanksgivings between 2000 and 2016)
@@ -90,14 +90,14 @@ namespace Ical.Net.Tests
             var searchEnd = DateTime.Parse("2017-01-01");
             var usThanksgivings = vEvent.GetOccurrences(searchStart, searchEnd);
 
-            Assert.AreEqual(17, usThanksgivings.Count);
+            Assert.Equal(17, usThanksgivings.Count);
             foreach (var thanksgiving in usThanksgivings)
             {
-                Assert.IsTrue(thanksgiving.Period.StartTime.DayOfWeek == DayOfWeek.Thursday);
+                Assert.True(thanksgiving.Period.StartTime.DayOfWeek == DayOfWeek.Thursday);
             }
         }
 
-        [Test]
+        [Fact]
         public void DailyExceptSunday_Test()
         {
             //An event that happens daily through 2016, except for Sundays
@@ -105,7 +105,7 @@ namespace Ical.Net.Tests
             {
                 DtStart = new CalDateTime(DateTime.Parse("2016-01-01T07:00")),
                 DtEnd = new CalDateTime(DateTime.Parse("2016-12-31T08:00")),
-                RecurrenceRules = new List<RecurrencePattern> { new RecurrencePattern(FrequencyType.Daily, 1)},
+                RecurrenceRules = new List<RecurrencePattern> { new RecurrencePattern(FrequencyType.Daily, 1) },
             };
 
             //Define the exceptions: Sunday
@@ -113,7 +113,7 @@ namespace Ical.Net.Tests
             {
                 ByDay = new List<WeekDay> { new WeekDay(DayOfWeek.Sunday) }
             };
-            vEvent.ExceptionRules = new List<RecurrencePattern> {exceptionRule};
+            vEvent.ExceptionRules = new List<RecurrencePattern> { exceptionRule };
 
             var calendar = new Calendar();
             calendar.Events.Add(vEvent);
@@ -122,7 +122,7 @@ namespace Ical.Net.Tests
             var searchStart = DateTime.Parse("2015-12-31");
             var searchEnd = DateTime.Parse("2017-01-01");
             var occurrences = calendar.GetOccurrences(searchStart, searchEnd);
-            Assert.AreEqual(314, occurrences.Count);
+            Assert.Equal(314, occurrences.Count);
         }
     }
 }

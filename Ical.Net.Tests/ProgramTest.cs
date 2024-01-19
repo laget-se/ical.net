@@ -1,38 +1,37 @@
-using Ical.Net.DataTypes;
+﻿using Ical.Net.DataTypes;
 using Ical.Net.Utility;
-using NUnit.Framework;
 using System;
 using System.Linq;
+using Xunit;
 
 namespace Ical.Net.Tests
 {
-    [TestFixture]
     public class ProgramTest
     {
-        [Test]
+        [Fact]
         public void LoadAndDisplayCalendar()
         {
             // The following code loads and displays an iCalendar
             // with US Holidays for 2006.
             var iCal = Calendar.Load(IcsFiles.UsHolidays);
-            Assert.IsNotNull(iCal, "iCalendar did not load.");
+            Assert.NotNull(iCal, "iCalendar did not load.");
         }
 
         private const string _tzid = "US-Eastern";
 
         public static void TestCal(Calendar cal)
         {
-            Assert.IsNotNull(cal, "The iCalendar was not loaded");
+            Assert.NotNull(cal, "The iCalendar was not loaded");
             if (cal.Events.Count > 0)
-                Assert.IsTrue(cal.Events.Count == 1, "Calendar should contain 1 event; however, the iCalendar loaded " + cal.Events.Count + " events");
+                Assert.True(cal.Events.Count == 1, "Calendar should contain 1 event; however, the iCalendar loaded " + cal.Events.Count + " events");
             else if (cal.Todos.Count > 0)
-                Assert.IsTrue(cal.Todos.Count == 1, "Calendar should contain 1 todo; however, the iCalendar loaded " + cal.Todos.Count + " todos");
+                Assert.True(cal.Todos.Count == 1, "Calendar should contain 1 todo; however, the iCalendar loaded " + cal.Todos.Count + " todos");
         }
 
         /// <summary>
         /// The following test is an aggregate of MonthlyCountByMonthDay3() and MonthlyByDay1() in the
         /// </summary>
-        [Test]
+        [Fact]
         public void Merge1()
         {
             var iCal1 = Calendar.Load(IcsFiles.MonthlyCountByMonthDay3);
@@ -82,20 +81,20 @@ namespace Ical.Net.Tests
             {
                 IDateTime dt = dateTimes[i];
                 var start = occurrences[i].Period.StartTime;
-                Assert.AreEqual(dt, start);
+                Assert.Equal(dt, start);
 
                 var expectedZone = DateUtil.GetZone(dt.TimeZoneName);
                 var actualZone = DateUtil.GetZone(timeZones[i]);
 
-                //Assert.AreEqual();
+                //Assert.Equal();
 
                 //Normalize the time zones and then compare equality
-                Assert.AreEqual(expectedZone, actualZone);
+                Assert.Equal(expectedZone, actualZone);
 
-                //Assert.IsTrue(dt.TimeZoneName == TimeZones[i], "Event " + dt + " should occur in the " + TimeZones[i] + " timezone");
+                //Assert.True(dt.TimeZoneName == TimeZones[i], "Event " + dt + " should occur in the " + TimeZones[i] + " timezone");
             }
 
-            Assert.IsTrue(occurrences.Count == dateTimes.Length, "There should be exactly " + dateTimes.Length + " occurrences; there were " + occurrences.Count);
+            Assert.True(occurrences.Count == dateTimes.Length, "There should be exactly " + dateTimes.Length + " occurrences; there were " + occurrences.Count);
 
             // Get occurrences for the 2nd event
             occurrences = evt2.GetOccurrences(
@@ -129,7 +128,7 @@ namespace Ical.Net.Tests
                 "US-Eastern",
                 "US-Eastern",
                 "US-Eastern",
-                "US-Eastern",                
+                "US-Eastern",
                 "US-Eastern",
                 "US-Eastern",
                 "US-Eastern",
@@ -150,17 +149,17 @@ namespace Ical.Net.Tests
             {
                 IDateTime dt = dateTimes1[i];
                 var start = occurrences[i].Period.StartTime;
-                Assert.AreEqual(dt, start);
-                Assert.IsTrue(dt.TimeZoneName == timeZones1[i], "Event " + dt + " should occur in the " + timeZones1[i] + " timezone");
+                Assert.Equal(dt, start);
+                Assert.True(dt.TimeZoneName == timeZones1[i], "Event " + dt + " should occur in the " + timeZones1[i] + " timezone");
             }
 
-            Assert.AreEqual(dateTimes1.Length, occurrences.Count, "There should be exactly " + dateTimes1.Length + " occurrences; there were " + occurrences.Count);
+            Assert.Equal(dateTimes1.Length, occurrences.Count, "There should be exactly " + dateTimes1.Length + " occurrences; there were " + occurrences.Count);
         }
 
-        [Test]
+        [Fact]
         public void SystemTimeZone3()
         {
-            // Per Jon Udell's test, we should be able to get all 
+            // Per Jon Udell's test, we should be able to get all
             // system time zones on the machine and ensure they
             // are properly translated.
             var zones = TimeZoneInfo.GetSystemTimeZones();
@@ -168,11 +167,11 @@ namespace Ical.Net.Tests
             {
                 try
                 {
-                    TimeZoneInfo.FindSystemTimeZoneById(zone.Id);                    
+                    TimeZoneInfo.FindSystemTimeZoneById(zone.Id);
                 }
                 catch (Exception)
                 {
-                    Assert.Fail("Not found: " + zone.StandardName);                    
+                    Assert.Fail("Not found: " + zone.StandardName);
                 }
             }
         }

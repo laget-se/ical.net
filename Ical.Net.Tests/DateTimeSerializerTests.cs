@@ -1,14 +1,14 @@
-using Ical.Net.DataTypes;
+﻿using Ical.Net.DataTypes;
 using Ical.Net.Serialization.DataTypes;
-using NUnit.Framework;
 using System;
+using System.ComponentModel;
+using Xunit;
 
 namespace Ical.Net.Tests
 {
-    [TestFixture]
     public class DateTimeSerializerTests
     {
-        [Test, Category("Deserialization")]
+        [Fact, Category("Deserialization")]
         public void TZIDPropertyShouldBeAppliedForLocalTimezones()
         {
             // see http://www.ietf.org/rfc/rfc2445.txt p.36
@@ -16,8 +16,8 @@ namespace Ical.Net.Tests
                 .SerializeToString(
                 new CalDateTime(new DateTime(1997, 7, 14, 13, 30, 0, DateTimeKind.Local), "US-Eastern"));
 
-            // TZID is applied elsewhere - just make sure this doesn't have 'Z' appended. 
-            Assert.AreEqual("19970714T133000", result);
+            // TZID is applied elsewhere - just make sure this doesn't have 'Z' appended.
+            Assert.Equal("19970714T133000", result);
         }
     }
 }

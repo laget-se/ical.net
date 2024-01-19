@@ -1,13 +1,12 @@
 ﻿using Ical.Net.Utility;
-using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
+using Xunit;
 
 namespace Ical.Net.Tests
 {
     public class TextUtilTests
     {
-        [Test, TestCaseSource(nameof(FoldLines_TestCases))]
+        [Fact, TestCaseSource(nameof(FoldLines_TestCases))]
         public string FoldLines_Tests(string incoming) => TextUtil.FoldLines(incoming);
 
         public static IEnumerable<ITestCaseData> FoldLines_TestCases()

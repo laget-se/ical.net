@@ -1,12 +1,12 @@
-using Ical.Net.DataTypes;
-using NUnit.Framework;
+﻿using Ical.Net.DataTypes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using Xunit;
 
 namespace Ical.Net.Tests
 {
-    [TestFixture]
     public class AlarmTest
     {
         private const string _tzid = "US-Eastern";
@@ -25,12 +25,12 @@ namespace Ical.Net.Tests
             //Only compare the UTC values here, since we care about the time coordinate when the alarm fires, and nothing else
             foreach (var alarm in alarms.Select(a => a.DateTime.AsUtc))
             {
-                Assert.IsTrue(utcDates.Contains(alarm), "Alarm triggers at " + alarm + ", but it should not.");
+                Assert.True(utcDates.Contains(alarm), "Alarm triggers at " + alarm + ", but it should not.");
             }
-            Assert.IsTrue(dates.Count == alarms.Count, "There were " + alarms.Count + " alarm occurrences; there should have been " + dates.Count + ".");
+            Assert.True(dates.Count == alarms.Count, "There were " + alarms.Count + " alarm occurrences; there should have been " + dates.Count + ".");
         }
 
-        [Test, Category("Alarm")]
+        [Fact, Category("Alarm")]
         public void Alarm1()
         {
             var dateTimes = new List<IDateTime>();
@@ -43,7 +43,7 @@ namespace Ical.Net.Tests
             TestAlarm(content, dateTimes, new CalDateTime(2006, 7, 1, _tzid), new CalDateTime(2006, 9, 1, _tzid));
         }
 
-        [Test, Category("Alarm")]
+        [Fact, Category("Alarm")]
         public void Alarm2()
         {
             var dateTimes = new List<IDateTime>();
@@ -65,7 +65,7 @@ namespace Ical.Net.Tests
             TestAlarm(content, dateTimes, new CalDateTime(2006, 7, 1, _tzid), new CalDateTime(2006, 9, 1, _tzid));
         }
 
-        [Test, Category("Alarm")]
+        [Fact, Category("Alarm")]
         public void Alarm3()
         {
             var dateTimes = new List<IDateTime>();
@@ -82,7 +82,7 @@ namespace Ical.Net.Tests
             TestAlarm(content, dateTimes, new CalDateTime(1997, 1, 1, _tzid), new CalDateTime(2000, 12, 31, _tzid));
         }
 
-        [Test, Category("Alarm")]
+        [Fact, Category("Alarm")]
         public void Alarm4()
         {
             var dateTimes = new List<IDateTime>();
@@ -114,7 +114,7 @@ namespace Ical.Net.Tests
             TestAlarm(content, dateTimes, new CalDateTime(1997, 1, 1, _tzid), new CalDateTime(2000, 12, 31, _tzid));
         }
 
-        [Test, Category("Alarm")]
+        [Fact, Category("Alarm")]
         public void Alarm5()
         {
             var dateTimes = new List<IDateTime>();
@@ -127,7 +127,7 @@ namespace Ical.Net.Tests
             TestAlarm(content, dateTimes, new CalDateTime(1997, 7, 1, _tzid), new CalDateTime(2000, 12, 31, _tzid));
         }
 
-        [Test, Category("Alarm")]
+        [Fact, Category("Alarm")]
         public void Alarm6()
         {
             var dateTimes = new List<IDateTime>();
@@ -145,7 +145,7 @@ namespace Ical.Net.Tests
             TestAlarm(content, dateTimes, new CalDateTime(1997, 7, 1, _tzid), new CalDateTime(2000, 12, 31, _tzid));
         }
 
-        [Test, Category("Alarm")]
+        [Fact, Category("Alarm")]
         public void Alarm7()
         {
             var dateTimes = new List<IDateTime>();

@@ -1,16 +1,15 @@
 ﻿using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
 using Ical.Net.Serialization;
-using NUnit.Framework;
 using System;
 using System.Linq;
+using Xunit;
 
 namespace Ical.Net.Tests
 {
-    [TestFixture]
     public class CalendarPropertiesTest
     {
-        [Test]
+        [Fact]
         public void AddPropertyShouldNotIncludePropertyNameInValue()
         {
             const string propName = "X-WR-CALNAME";
@@ -21,13 +20,12 @@ namespace Ical.Net.Tests
 
             var result = new CalendarSerializer().SerializeToString(iCal);
 
-            var lines = result.Split(new [] { SerializationConstants.LineBreak }, StringSplitOptions.None);
+            var lines = result.Split(new[] { SerializationConstants.LineBreak }, StringSplitOptions.None);
             var propLine = lines.FirstOrDefault(x => x.StartsWith("X-WR-CALNAME:"));
-            Assert.AreEqual($"{propName}:{propValue}", propLine);
+            Assert.Equal($"{propName}:{propValue}", propLine);
         }
 
-        [Test]
-        [Ignore("Calendar properties aren't being properly serialized")]
+        [Fact(Skip = "Calendar properties aren't being properly serialized")]
         public void PropertySerialization_Tests()
         {
             const string formatted =
@@ -47,10 +45,10 @@ namespace Ical.Net.Tests
             calendar.Events.Add(@event);
 
             var serialized = new CalendarSerializer().SerializeToString(calendar);
-            Assert.IsTrue(serialized.Contains("X-ALT-DESC;"));
+            Assert.True(serialized.Contains("X-ALT-DESC;"));
         }
 
-        [Test]
+        [Fact]
         public void PropertySetValueMustAllowNull()
         {
             var property = new CalendarProperty();

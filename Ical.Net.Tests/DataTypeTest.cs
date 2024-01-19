@@ -1,18 +1,18 @@
 ﻿using Ical.Net.DataTypes;
-using NUnit.Framework;
+using System.ComponentModel;
+using Xunit;
 
 namespace Ical.Net.Tests
 {
-    [TestFixture]
     public class DataTypeTest
     {
-        [Test, Category("DataType")]
+        [Fact, Category("DataType")]
         public void OrganizerConstructorMustAcceptNull()
         {
             Assert.DoesNotThrow(() => { var o = new Organizer(null); });
         }
 
-        [Test, Category("DataType")]
+        [Fact, Category("DataType")]
         public void AttachmentConstructorMustAcceptNull()
         {
             Assert.DoesNotThrow(() => { var o = new Attachment((byte[])null); });

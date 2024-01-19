@@ -1,18 +1,17 @@
-using Ical.Net.CalendarComponents;
+﻿using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
 using Ical.Net.Serialization;
-using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
+using Xunit;
 
 namespace Ical.Net.Tests
 {
-    [TestFixture]
     public class CopyTest
     {
-        [Test, TestCaseSource(nameof(CopyCalendarTest_TestCases)), Category("Copy tests")]
+        [Fact, TestCaseSource(nameof(CopyCalendarTest_TestCases)), Category("Copy tests")]
         public void CopyCalendarTest(string calendarString)
         {
             var iCal1 = Calendar.Load(calendarString);
@@ -57,22 +56,22 @@ namespace Ical.Net.Tests
 
         private static string SerializeEvent(CalendarEvent e) => new CalendarSerializer().SerializeToString(new Calendar { Events = { e } });
 
-        [Test]
+        [Fact]
         public void EventUid_Tests()
         {
             var e = GetSimpleEvent();
             e.Uid = "Hello";
             var copy = e.Copy<CalendarEvent>();
-            Assert.AreEqual(e.Uid, copy.Uid);
+            Assert.Equal(e.Uid, copy.Uid);
 
             copy.Uid = "Goodbye";
 
             const string uidPattern = "UID:";
             var serializedOrig = SerializeEvent(e);
-            Assert.AreEqual(1, Regex.Matches(serializedOrig, uidPattern).Count);
+            Assert.Equal(1, Regex.Matches(serializedOrig, uidPattern).Count);
 
             var serializedCopy = SerializeEvent(copy);
-            Assert.AreEqual(1, Regex.Matches(serializedCopy, uidPattern).Count);
+            Assert.Equal(1, Regex.Matches(serializedCopy, uidPattern).Count);
         }
     }
 }
