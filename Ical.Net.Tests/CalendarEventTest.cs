@@ -125,16 +125,17 @@ namespace Ical.Net.Tests
         /// <summary>
         /// Ensures that automatically set DTSTAMP property is being serialized with kind UTC.
         /// </summary>
-        [Fact, Category("Deserialization"), TestCaseSource(nameof(EnsureAutomaticallySetDtStampIsSerializedAsUtcKind_TestCases))]
-        public bool EnsureAutomaticallySetDTSTAMPisSerializedAsKindUTC(string serialized)
+        [Theory, Category("Deserialization"), InlineData(nameof(EnsureAutomaticallySetDtStampIsSerializedAsUtcKind_TestCases))]
+        public void EnsureAutomaticallySetDTSTAMPisSerializedAsKindUTC(string serialized)
         {
             var lines = serialized.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
             var result = lines.First(s => s.StartsWith("DTSTAMP"));
 
-            return !result.Contains("TZID=") && result.EndsWith("Z");
+            Assert.DoesNotContain("TZID=", result);
+            Assert.EndsWith("Z", result);
         }
 
-        public static IEnumerable<ITestCaseData> EnsureAutomaticallySetDtStampIsSerializedAsUtcKind_TestCases()
+        public static IEnumerable<object[]> EnsureAutomaticallySetDtStampIsSerializedAsUtcKind_TestCases()
         {
             var emptyCalendar = new Calendar();
             var evt = new CalendarEvent();
