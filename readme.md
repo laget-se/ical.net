@@ -1,4 +1,7 @@
 # iCal.NET
+> [!IMPORTANT]
+> Since iCal.Net has been revived and all patches in this repository have been merged into the original repository, we have decided to archive it and move it back to the original nuget!
+
 > **Note**
 > This repository has been forked from https://github.com/rianjs/ical.net and have been under a few changes, please read [Forking](#Forking)!
 
